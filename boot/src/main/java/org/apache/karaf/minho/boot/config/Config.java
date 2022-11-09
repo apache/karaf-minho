@@ -50,7 +50,7 @@ public class Config {
     }
 
     protected static String getProperty(String key, Map<String, String> properties, String defaultValue) {
-        String envKey = key.replaceAll(".", "_").toUpperCase();
+        String envKey = key.replaceAll("\\.", "_").toUpperCase();
         if (System.getenv(envKey) != null) {
             return System.getenv(envKey);
         }
