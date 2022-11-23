@@ -23,7 +23,9 @@ import org.apache.karaf.minho.boot.config.Config;
 import org.apache.karaf.minho.boot.service.ServiceRegistry;
 import org.apache.karaf.minho.boot.spi.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,7 @@ public class PropertiesConfigLoaderService implements Service {
     @Override
     public void onRegister(final ServiceRegistry serviceRegistry) throws Exception {
         Properties properties = new Properties();
+        File minhoProperties = new File("./minho.properties");
         if (System.getenv("MINHO_CONFIG") != null) {
             log.info("Loading properties from MINHO_CONFIG env variable");
             properties.load(new StringReader(System.getenv("MINHO_CONFIG")));
@@ -64,6 +67,9 @@ public class PropertiesConfigLoaderService implements Service {
         } else if (PropertiesConfigLoaderService.class.getResourceAsStream("/minho.properties") != null) {
             log.info("Loading configuration from classpath minho.properties");
             properties.load(PropertiesConfigLoaderService.class.getResourceAsStream("/minho.properties"));
+        } else if (minhoProperties.exists()){
+            log.info("Loading configuration from current directory: ./minho.properties");
+            properties.load(new FileReader(minhoProperties));
         }
         Config config = parse(properties);
         final var existing = serviceRegistry.get(Config.class);

@@ -41,14 +41,17 @@ public class Main {
             System.out.println("Minho lib: " + minhoLib);
             Path libFolder = Paths.get(minhoLib);
             ArrayList<URL> urls = new ArrayList<URL>();
+            System.out.print("Loaded libraries: ");
             Files.walkFileTree(libFolder, new SimpleFileVisitor<>() {
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
                     if (!Files.isDirectory(file)) {
+                        System.out.print(file.toFile().toURI().toURL() + ":");
                         urls.add(file.toFile().toURI().toURL());
                     }
                     return FileVisitResult.CONTINUE;
                 }
             });
+            System.out.println();
             URLClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[]{}));
             Thread.currentThread().setContextClassLoader(classLoader);
         } else {

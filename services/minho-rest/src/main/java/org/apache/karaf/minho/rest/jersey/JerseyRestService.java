@@ -56,7 +56,7 @@ public class JerseyRestService implements Service {
         if (config != null && config.getProperty(REST_PACKAGES) != null) {
             restPackages = config.getProperty(REST_PACKAGES);
         } else {
-            throw new IllegalStateException("rest.packages configuration is not found in the ConfigService");
+            restPackages = "org.apache.karaf.minho";
         }
 
         log.info("Starting minho-rest-service");

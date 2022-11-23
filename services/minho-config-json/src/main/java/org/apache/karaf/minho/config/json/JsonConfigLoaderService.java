@@ -47,6 +47,7 @@ public class JsonConfigLoaderService implements Service {
     @Override
     public void onRegister(final ServiceRegistry serviceRegistry) throws Exception {
         Config config = null;
+        File minhoJson = new File("./minho.json");
         if (System.getenv("MINHO_CONFIG") != null) {
             log.info("Loading JSON configuration from MINHO_CONFIG env variable");
             StringReader reader = new StringReader(System.getenv("MINHO_CONFIG"));
@@ -63,9 +64,9 @@ public class JsonConfigLoaderService implements Service {
         } else if (JsonConfigLoaderService.class.getResourceAsStream("/minho.json") != null) {
             log.info("Loading JSON configuration from classpath minho.json");
             config = loadJson(JsonConfigLoaderService.class.getResourceAsStream("/minho.json"));
-        } else {
-            log.info("JSON configuration not found");
-            return;
+        } else if (minhoJson.exists()) {
+            log.info("Loading JSON configuration from current directory: ./minho.json");
+            config = loadJson(new FileReader(minhoJson));
         }
 
         final var existing = serviceRegistry.get(Config.class);
