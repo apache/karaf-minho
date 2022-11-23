@@ -22,9 +22,7 @@ import org.apache.karaf.minho.boot.service.ConfigService;
 import org.apache.karaf.minho.boot.service.ServiceRegistry;
 import org.apache.karaf.minho.boot.spi.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 
 @Log
 public class WelcomeBannerService implements Service {
@@ -61,13 +59,17 @@ public class WelcomeBannerService implements Service {
 
         File file = new File("banner.txt");
         if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                StringBuilder builder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line).append("\n");
-                }
-                log.info("\n" + builder.toString());
+            try {
+                log.info("\n" + readBanner(new FileReader(file)));
+            } catch (Exception e) {
+                // no-op
+            }
+            return;
+        }
+
+        if (WelcomeBannerService.class.getResourceAsStream("/banner.txt") != null) {
+            try {
+                log.info("\n" + readBanner(new InputStreamReader(WelcomeBannerService.class.getResourceAsStream("/banner.txt"))));
             } catch (Exception e) {
                 // no-op
             }
@@ -82,6 +84,17 @@ public class WelcomeBannerService implements Service {
                 "|_|  |_|_|_| |_|_| |_|\\___/ " +
                 "\n" +
                 "  Apache Karaf Minho 1.x\n");
+    }
+
+    private String readBanner(Reader reader) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
+            String line;
+            StringBuilder builder = new StringBuilder();
+            while ((line = bufferedReader.readLine()) != null) {
+                builder.append(line).append("\n");
+            }
+            return builder.toString();
+        }
     }
 
 }
