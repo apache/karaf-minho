@@ -19,6 +19,7 @@ package org.apache.karaf.minho.boot;
 
 import lombok.extern.java.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -42,6 +43,8 @@ public class Main {
             Path libFolder = Paths.get(minhoLib);
             ArrayList<URL> urls = new ArrayList<URL>();
             System.out.print("Loaded libraries: ");
+            System.out.print(libFolder.toFile().toURI().toURL() + ":");
+            urls.add(libFolder.toFile().toURI().toURL());
             Files.walkFileTree(libFolder, new SimpleFileVisitor<>() {
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
                     if (!Files.isDirectory(file)) {
