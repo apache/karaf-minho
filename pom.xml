@@ -39,6 +39,8 @@
         <junit.version>5.9.1</junit.version>
         <slf4j.version>1.7.36</slf4j.version>
         <project.build.outputTimestamp>1</project.build.outputTimestamp>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
 		<scm>
@@ -114,10 +116,9 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <skippedModules>minho-jmx</skippedModules>
                 </configuration>
             </plugin>
             <plugin>
