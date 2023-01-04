@@ -32,6 +32,10 @@
     <artifactId>minho-jmx</artifactId>
     <name>Apache Karaf Minho :: Services :: JMX</name>
 
+    <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
