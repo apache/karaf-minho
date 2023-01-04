@@ -41,6 +41,12 @@
         <project.build.outputTimestamp>1</project.build.outputTimestamp>
     </properties>
 
+		<scm>
+			<connection>scm:git:https://github.com/apache/karaf-minho</connection>
+			<developerConnection>scm:git:https://github.com/apache/karaf-minho</developerConnection>
+			<url>https://github.com/apache/karaf-minho</url>
+		</scm>
+
     <modules>
         <module>boot</module>
         <module>services</module>
