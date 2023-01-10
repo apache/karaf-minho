@@ -40,6 +40,11 @@ public class JerseyRestService implements Service {
     }
 
     @Override
+    public int priority() {
+        return Service.DEFAULT_PRIORITY + 1;
+    }
+
+    @Override
     public void onRegister(ServiceRegistry serviceRegistry) throws Exception {
         ConfigService config = serviceRegistry.get(ConfigService.class);
         if (config == null) {
