@@ -61,7 +61,7 @@ public class SpringBootApplicationManagerService implements Service {
         // TODO add shutdown hook
     }
 
-    private List<Application> getApplications(Config config) {
+    protected List<Application> getApplications(Config config) {
         List<Application> applications = new LinkedList<>();
         if (config != null) {
             config.getApplications().forEach(application -> {
@@ -69,7 +69,7 @@ public class SpringBootApplicationManagerService implements Service {
                     if (canHandle(application.getUrl())) {
                         applications.add(application);
                     }
-                } else if (application.getType().equals(name())) {
+                } else if (application.getType().equals("spring-boot")) {
                     applications.add(application);
                 }
             });
