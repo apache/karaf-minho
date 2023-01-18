@@ -18,14 +18,34 @@
 package org.apache.karaf.minho.springboot;
 
 import org.apache.karaf.minho.boot.Minho;
+import org.apache.karaf.minho.boot.config.Application;
+import org.apache.karaf.minho.boot.service.ConfigService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class SpringBootApplicationManagerServiceTest {
 
     @Test
-    public void simpleTest() throws Exception {
-        // TODO add spring boot sample app
-        Minho.builder().build().start();
+    public void simpleTypeCheck() throws Exception {
+        ConfigService configService = new ConfigService();
+        List<Application> applications = new ArrayList<>();
+        Application application = new Application();
+        application.setType("spring-boot");
+        application.setName("my-test-app");
+        application.setUrl("mvn:foo/bar/1.0");
+        applications.add(application);
+        configService.setApplications(applications);
+
+        SpringBootApplicationManagerService service = new SpringBootApplicationManagerService();
+
+        List<Application> loaded = service.getApplications(configService);
+
+        Assertions.assertEquals(1, loaded.size());
+        Assertions.assertEquals("my-test-app", loaded.get(0).getName());
     }
 
 }
