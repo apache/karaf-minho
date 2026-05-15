@@ -29,10 +29,23 @@ github:
     - service
   ghp_branch: gh-pages
   features:
-    wiki: false 
+    wiki: false
     issues: true
     projects: false
   enabled_merge_buttons:
     squash: true
     merge: true
     rebase: true
+  rulesets:
+    - name: "Default Branch Protection"
+      type: branch
+      branches:
+        includes:
+          - "~DEFAULT_BRANCH"
+          - "release/*"
+          - "rel/*"
+        excludes: []
+      bypass_teams:
+        - root
+      restrict_deletion: true
+      restrict_force_push: true
